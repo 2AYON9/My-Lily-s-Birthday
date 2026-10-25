@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffd9e0">
+  <title>A Little Surprise for Lily 💗</title>
+
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <main class="scene">
+    <div class="window" aria-hidden="true"></div>
+    <div class="curtain" aria-hidden="true"></div>
+    <div class="floor" aria-hidden="true"></div>
+    <div class="rug" aria-hidden="true"></div>
+
+    <span class="sparkle sparkle-1" aria-hidden="true">✦</span>
+    <span class="sparkle sparkle-2" aria-hidden="true">✧</span>
+    <span class="heart heart-1" aria-hidden="true">♥</span>
+    <span class="heart heart-2" aria-hidden="true">♥</span>
+    <span class="heart heart-3" aria-hidden="true">♥</span>
+
+    <section class="content" id="opening">
+      <p class="eyebrow">A LITTLE SURPRISE FOR YOU</p>
+
+      <div class="letters" id="letters" aria-label="Hi Lily!">
+        <span class="letter" style="--tilt:-8deg">H</span>
+        <span class="letter" style="--tilt:5deg">i</span>
+        <span class="gap-letter" aria-hidden="true"></span>
+        <span class="letter" style="--tilt:-5deg"></span>
+        <span class="letter" style="--tilt:7deg">L</span>
+        <span class="letter" style="--tilt:-6deg">i</span>
+        <span class="letter" style="--tilt:5deg">l</span>
+        <span class="letter" style="--tilt:9deg">y</span>
+      </div>
+
+      <div class="message-card">
+        <p>I made something special for you...</p>
+        <p class="message-subtitle">do you wanna see it? 💗</p>
+      </div>
+
+      <div class="character-row">
+        <div class="character character-left">
+          <img
+            src="bubu_rotating_no_background.gif"
+            alt="Bubu riding a scooter"
+            class="character-image"
+          >
+        </div>
+
+        <div class="character character-right">
+          <img
+            src="standing_with_rose_transparent.gif"
+            alt="A cute bear holding a rose"
+            class="character-image"
+          >
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="button button-yes" id="yesBtn" type="button">
+          ♥ YES ♥
+        </button>
+
+        <button class="button button-no" id="noBtn" type="button">
+          NO ♡
+        </button>
+      </div>
+
+      <p class="status" id="status" aria-live="polite"></p>
+    </section>
+
+    <section class="next-screen" id="nextScreen" hidden>
+      <div class="next-card">
+        <div class="next-emoji" aria-hidden="true">🧸💗🎂</div>
+        <h1>Yay, Lily!</h1>
+        <p>Your little surprise is waiting for you. ✨</p>
+        <p>Ready for your special birthday journey?</p>
+        <button class="button button-yes" id="backBtn" type="button">
+          Let's go! 💗
+        </button>
+      </div>
+    </section>
+
+    
+<!-- NO button reaction -->
+<section class="no-reaction" id="noReaction" hidden>
+  <div class="reaction-card">
+    <video id="dragVideo" playsinline>
+      <source src="Draging.mp4" type="video/mp4">
+    </video>
+
+    <h2>Hehe, come back! 🥺💗</h2>
+    <p>Come and decide again!</p>
+
+    <button class="button button-yes" id="decideAgainBtn" type="button">
+      Okay, let me see again 💕
+    </button>
+  </div>
+</section>
+
+  </main>
+</body>
+</html>

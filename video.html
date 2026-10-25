@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Little Surprise for Lily 💗</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #ffd6e5, #fff0e8, #ffc5d8);
+      font-family: Arial, sans-serif;
+    }
+
+    .video-page {
+      width: 100%;
+      max-width: 900px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #d94f78;
+      margin: 0 0 18px;
+      font-size: clamp(24px, 5vw, 38px);
+    }
+
+    video {
+      display: block;
+      width: 100%;
+      max-height: 75vh;
+      object-fit: contain;
+      border: 5px solid white;
+      border-radius: 22px;
+      background: transparent;
+      box-shadow: 0 12px 35px #c45e7830;
+    }
+
+    p {
+      color: #a84e6b;
+      font-size: 17px;
+    }
+
+    #homeBtn {
+      display: none;
+      padding: 13px 25px;
+      border: none;
+      border-radius: 30px;
+      background: #e95783;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #homeBtn {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin-top: 15px;
+  padding: 13px 25px;
+  border: none;
+  border-radius: 30px;
+  background: #e95783;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+  </style>
+</head>
+
+<body>
+  <main class="video-page">
+    <h1>Lily💗 you choose no😒i'm gussa..huh😤</h1>
+
+    <video id="surpriseVideo" autoplay muted playsinline>
+      <source src="Draging.mp4" type="video/mp4">
+      Your browser does not support this video.
+    </video>
+
+    <p id="message">Lets choose again! 💕</p>
+
+    <button id="homeBtn" onclick="goHome()">
+      Back to choose yes button😋
+    </button>
+  </main>
+
+  <script>
+    const video = document.getElementById("surpriseVideo");
+    const message = document.getElementById("message");
+    const homeBtn = document.getElementById("homeBtn");
+
+    function goHome() {
+      window.location.href = "index.html";
+    }
+
+    video.addEventListener("ended", () => {
+      message.textContent = "go now to choose yes button😋";
+      homeBtn.style.display = "inline-block";
+
+      setTimeout(goHome, 2500);
+    });
+
+    video.addEventListener("error", () => {
+      message.textContent =
+        "Oops! Check that Draging.mp4 is in the same folder as video.html.";
+      homeBtn.style.display = "inline-block";
+    });
+  </script>
+</body>
+</html>
