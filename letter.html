@@ -1,0 +1,422 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#190f19">
+<title>A Letter for Lily 💗</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --pink: #ffb7d0;
+  --cream: #fff5ed;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #190f19;
+  color: var(--cream);
+  font-family: Georgia, "Times New Roman", serif;
+  overflow-x: hidden;
+}
+
+/* FULL-SCREEN BACKGROUND VIDEO */
+.bg-video {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  pointer-events: none;
+  filter: brightness(.38) saturate(.8);
+}
+
+.bg-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(25, 15, 25, .38),
+    rgba(25, 15, 25, .62)
+  );
+}
+
+/* PAGE INTRODUCTION */
+main {
+  width: min(900px, 92%);
+  margin: auto;
+  padding: 48px 0 70px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.eyebrow {
+  color: var(--pink);
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: clamp(38px, 8vw, 62px);
+  font-weight: normal;
+  line-height: 1.2;
+  margin: 18px 0;
+}
+
+.subtitle {
+  max-width: 470px;
+  margin: auto;
+  line-height: 1.9;
+  color: #f3dce5;
+}
+
+/* PHOTO AND MESSAGE ROWS */
+.memory {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(18px, 5vw, 55px);
+  margin: 80px 0;
+}
+
+.photo-card {
+  padding: 10px 10px 22px;
+  background: #fffaf5;
+  color: #704354;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, .3);
+  border-radius: 3px;
+  transform: rotate(-3deg);
+  transition: transform .5s ease;
+}
+
+.photo-card img {
+  width: 100%;
+  display: block;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background: #e8cbd5;
+}
+
+.photo-caption {
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 14px 2px 0;
+}
+
+.memory.reverse .photo-card {
+  order: 2;
+  transform: rotate(3deg);
+}
+
+.memory.reverse .story {
+  order: 1;
+}
+
+.photo-card:hover {
+  transform: rotate(0deg) translateY(-4px);
+}
+
+/* TYPEWRITER MESSAGE */
+.story {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity .8s ease, transform .8s ease;
+  min-width: 0;
+}
+
+.story.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.story h2 {
+  font-size: clamp(24px, 4vw, 35px);
+  line-height: 1.35;
+  font-weight: normal;
+  color: var(--pink);
+}
+
+.type-text {
+  font-size: 16px;
+  line-height: 1.95;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: #fff5f2;
+}
+
+.cursor::after {
+  content: "|";
+  display: inline-block;
+  color: var(--pink);
+  animation: blink .8s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  to { opacity: 0; }
+}
+
+/* FINAL LETTER */
+.final-note {
+  max-width: 700px;
+  margin: 110px auto 30px;
+  padding: clamp(24px, 6vw, 48px);
+  border: 1px solid rgba(255, 183, 208, .4);
+  border-radius: 22px;
+  background: rgba(35, 20, 32, .78);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, .2);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+
+.final-note.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.final-note h2 {
+  font-size: clamp(30px, 6vw, 44px);
+  font-weight: normal;
+  color: var(--pink);
+}
+
+.final-note .type-text {
+  text-align: left;
+}
+
+.signature {
+  color: var(--pink);
+  font-style: italic;
+  line-height: 1.9;
+  margin-top: 30px;
+}
+
+footer {
+  text-align: center;
+  color: #f0c9d9;
+  font-size: 13px;
+  margin-top: 45px;
+}
+
+/* MOBILE */
+@media (max-width: 520px) {
+  main {
+    padding-top: 32px;
+  }
+
+  header {
+    margin-bottom: 48px;
+  }
+
+  .memory {
+    gap: 14px;
+    margin: 58px 0;
+  }
+
+  .photo-card {
+    padding: 6px 6px 14px;
+  }
+
+  .photo-card img {
+    aspect-ratio: 3 / 4;
+  }
+
+  .photo-caption {
+    font-size: 11px;
+  }
+
+  .story h2 {
+    font-size: 21px;
+  }
+
+  .type-text {
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .memory.reverse .photo-card {
+    order: 2;
+  }
+
+  .memory.reverse .story {
+    order: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND VIDEO
+     Use a separate background clip, not your friend's video.
+     Autoplay generally requires muted playback. -->
+<video class="bg-video"
+       autoplay muted loop playsinline preload="metadata"
+       aria-hidden="true">
+  <source src="lily-background.mp4" type="video/mp4">
+</video>
+
+<div class="bg-overlay"></div>
+
+<main>
+
+  <!-- INTRODUCTION -->
+  <header>
+    <p class="eyebrow">A little corner of my heart</p>
+    <h1>For You, Lily ♡</h1>
+    <p class="subtitle">
+      Some memories deserve a little more time.
+      So here's something I made just for you. 🌷
+    </p>
+  </header>
+
+  <!-- MEMORY 1: PHOTO LEFT, TEXT RIGHT -->
+  <section class="memory">
+    <div class="photo-card">
+      <img src="photo1.jpeg" alt="A special memory together">
+      <p class="photo-caption">A little moment to keep ♡</p>
+    </div>
+
+    <div class="story">
+      <p class="eyebrow">01 — A little thought</p>
+      <h2>Some people feel different.</h2>
+      <p class="type-text"
+         data-message="Sometimes, without even trying, someone can make an ordinary day feel a little more special."></p>
+    </div>
+  </section>
+
+  <!-- MEMORY 2: TEXT LEFT, PHOTO RIGHT -->
+  <section class="memory reverse">
+    <div class="photo-card">
+      <img src="photo2.jpeg" alt="Another memory together">
+      <p class="photo-caption">One for the memory book ✨</p>
+    </div>
+
+    <div class="story">
+      <p class="eyebrow">02 — The little things</p>
+      <h2>Small moments matter.</h2>
+      <p class="type-text"
+         data-message="A conversation, a laugh, a random moment together. Sometimes the simplest things become the memories we keep closest."></p>
+    </div>
+  </section>
+
+  <!-- MEMORY 3: PHOTO LEFT, TEXT RIGHT -->
+  <section class="memory">
+    <div class="photo-card">
+      <img src="photo3.jpeg" alt="One more memory together">
+      <p class="photo-caption">A moment worth remembering 🌸</p>
+    </div>
+
+    <div class="story">
+      <p class="eyebrow">03 — Just because</p>
+      <h2>I'm glad our paths crossed.</h2>
+      <p class="type-text"
+         data-message="I'm glad I got to know you, and I hope life gives us many more chances to make beautiful memories together."></p>
+    </div>
+  </section>
+
+  <!-- FINAL PERSONAL NOTE -->
+  <section class="final-note">
+    <p class="eyebrow">One last thing</p>
+    <h2>Happy Birthday, Lily 💗</h2>
+
+    <p class="type-text"
+       data-message="I hope this new chapter brings you happiness, peace, and a thousand little reasons to smile. You deserve beautiful things, not just today, but every day. I hope this little surprise reminds you that you are appreciated and that someone is genuinely glad to have you in their life."></p>
+
+    <p class="signature">
+      With lots of warmth,<br>
+      Someone who thinks you're pretty special ♡
+    </p>
+  </section>
+
+  <footer>
+    Made with care, especially for Lily.
+  </footer>
+
+</main>
+
+<script>
+/* TYPEWRITER: reveal each section in order */
+const sections = [
+  ...document.querySelectorAll(".story, .final-note")
+];
+
+const typingSpeed = 32;
+
+function typeSection(section, next) {
+  const text = section.querySelector(".type-text");
+
+  if (!text) {
+    next();
+    return;
+  }
+
+  const message = text.dataset.message || "";
+  let index = 0;
+
+  text.textContent = "";
+  text.classList.add("cursor");
+
+  function typeNext() {
+    if (index < message.length) {
+      text.textContent += message.charAt(index);
+      index++;
+      setTimeout(typeNext, typingSpeed);
+    } else {
+      text.classList.remove("cursor");
+      setTimeout(next, 650);
+    }
+  }
+
+  typeNext();
+}
+
+function revealSection(index) {
+  if (index >= sections.length) return;
+
+  const section = sections[index];
+  section.classList.add("visible");
+
+  setTimeout(() => {
+    typeSection(section, () => {
+      revealSection(index + 1);
+    });
+  }, 350);
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  setTimeout(() => revealSection(0), 500);
+});
+</script>
+
+</body>
+</html>
