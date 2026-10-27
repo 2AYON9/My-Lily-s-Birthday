@@ -168,3 +168,8 @@ backBtn.addEventListener("click", () => {
       "There is a little surprise waiting for you! My lady💗";
   }
 });
+if (backBtn) {
+  backBtn.addEventListener("click", () => {
+    window.location.href = "game.html";
+  });
+}
