@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday, Lily 💗</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: Georgia, serif;
+      color: #fff8fc;
+      background: #321b2c;
+    }
+
+    .background-video {
+      position: fixed;
+      inset: -12px;
+      width: calc(100% + 24px);
+      height: calc(100% + 24px);
+      object-fit: cover;
+      filter: blur(10px) brightness(0.48);
+      z-index: -2;
+    }
+
+    .shade {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        #401c354d,
+        #170e1b80
+      );
+      z-index: -1;
+    }
+
+    .birthday-screen {
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 24px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .content {
+      width: 100%;
+      max-width: 440px;
+      animation: appear 1.2s ease both;
+    }
+
+    .eyebrow {
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #ffd4e5;
+    }
+
+    h1 {
+      font-size: clamp(36px, 10vw, 54px);
+      font-weight: normal;
+      margin: 12px 0;
+      text-shadow: 0 3px 24px #ff9fc966;
+    }
+
+    .subtitle {
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+      color: #ffe9f1;
+      line-height: 1.7;
+    }
+
+    .cake-area {
+      margin: 30px auto 24px;
+      width: 240px;
+      height: 220px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .cake {
+      position: relative;
+      width: 200px;
+      height: 95px;
+      margin-bottom: 16px;
+      border-radius: 14px 14px 22px 22px;
+      background: linear-gradient(
+        #ffbfd7 0 17%,
+        #f8a0c2 17% 25%,
+        #e985ad 25% 100%
+      );
+      box-shadow: 0 15px 35px #00000035;
+    }
+
+    .cake::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 28px;
+      top: -10px;
+      left: 0;
+      border-radius: 50%;
+      background: #ffe0ec;
+    }
+
+    .cake::after {
+      content: "♥  ♥  ♥";
+      position: absolute;
+      inset: 32px 0 auto;
+      color: #fff0f6;
+      font-size: 17px;
+      letter-spacing: 13px;
+      text-align: center;
+    }
+
+    .candles {
+      position: absolute;
+      z-index: 2;
+      top: 43px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 31px;
+    }
+
+    .candle {
+      width: 9px;
+      height: 52px;
+      border-radius: 4px 4px 2px 2px;
+      background: repeating-linear-gradient(
+        135deg,
+        #fff6fb 0 5px,
+        #f49abd 5px 10px
+      );
+      position: relative;
+    }
+
+    .flame {
+      position: absolute;
+      top: -23px;
+      left: 0;
+      width: 9px;
+      height: 18px;
+      border-radius: 60% 60% 45% 45%;
+      background: #ffcf70;
+      box-shadow: 0 0 12px 5px #ffb34788;
+      animation: flicker .7s infinite alternate;
+    }
+
+    .blown .flame {
+      display: none;
+    }
+
+    .blown .candle::after {
+      content: "";
+      position: absolute;
+      top: -18px;
+      left: 3px;
+      width: 3px;
+      height: 16px;
+      border-radius: 50%;
+      background: #ffffff9c;
+      filter: blur(3px);
+      animation: smoke 1.2s forwards;
+    }
+
+    button {
+      border: 1px solid #ffffff65;
+      border-radius: 40px;
+      padding: 14px 25px;
+      color: #69334d;
+      background: linear-gradient(135deg, #ffe3ef, #ffc0d8);
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 8px 25px #00000025;
+      transition: transform .2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    button:focus-visible {
+      outline: 2px solid white;
+      outline-offset: 4px;
+    }
+
+    #result {
+      min-height: 50px;
+      margin: 18px 0;
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      color: #fff0f6;
+    }
+
+    #continueBtn {
+      display: none;
+    }
+
+    @keyframes flicker {
+      from { transform: rotate(-4deg) scale(.95); }
+      to { transform: rotate(4deg) scale(1.08); }
+    }
+
+    @keyframes smoke {
+      to {
+        transform: translateY(-24px);
+        opacity: 0;
+      }
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Replace YOUR_VIDEO.mp4 with Lily's video filename -->
+  <video class="background-video"
+         autoplay muted loop playsinline aria-hidden="true">
+    <source src="V1.mp4" type="video/mp4">
+  </video>
+
+  <div class="shade"></div>
+
+  <main class="birthday-screen">
+    <section class="content">
+      <div class="eyebrow">A little moment just for you</div>
+
+      <h1>Happy Birthday, Lily ♡</h1>
+
+      <p class="subtitle">
+        Close your eyes, make a wish,<br>
+        and let this little moment be yours.
+      </p>
+
+      <div class="cake-area" id="cakeArea">
+        <div class="candles">
+          <div class="candle"><span class="flame"></span></div>
+          <div class="candle"><span class="flame"></span></div>
+          <div class="candle"><span class="flame"></span></div>
+        </div>
+        <div class="cake"></div>
+      </div>
+
+      <button id="blowBtn" type="button">
+        Blow the candles 🕯️
+      </button>
+
+      <p id="result" aria-live="polite">
+        Make a wish, Lily. ✨
+      </p>
+
+      <button id="continueBtn" type="button">
+        Continue to your surprise 💌
+      </button>
+    </section>
+  </main>
+
+  <script>
+    const cakeArea = document.getElementById("cakeArea");
+    const blowBtn = document.getElementById("blowBtn");
+    const result = document.getElementById("result");
+    const continueBtn = document.getElementById("continueBtn");
+
+    blowBtn.addEventListener("click", () => {
+      cakeArea.classList.add("blown");
+
+      result.textContent =
+        "Wish made, Lily! May your day be filled with love and little moments of happiness. 💗";
+
+      blowBtn.disabled = true;
+      blowBtn.textContent = "Candles blown out ✨";
+      continueBtn.style.display = "inline-block";
+    });
+
+    continueBtn.addEventListener("click", () => {
+      window.location.href = "message.html";
+    });
+  </script>
+
+</body>
+</html>
