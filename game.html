@@ -1,0 +1,365 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catch the Balloons 🎈 | Lily</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  color: #713d56;
+  background:
+    radial-gradient(ellipse at top, #fff8fc, transparent 65%),
+    linear-gradient(145deg, #ffe4ef, #fff1e8, #f9d8e8);
+}
+
+header {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 22px 12px 8px;
+}
+
+h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(29px, 6vw, 43px);
+  margin: 5px 0 10px;
+  color: #b64f7a;
+}
+
+.subtitle {
+  font-size: 15px;
+  margin: 0 0 16px;
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.stat {
+  min-width: 112px;
+  padding: 10px 16px;
+  border: 1px solid #ffffff;
+  border-radius: 18px;
+  background: #ffffffb8;
+  box-shadow: 0 5px 18px #b64f7a12;
+  font-weight: bold;
+}
+
+.stat span {
+  color: #bd5480;
+}
+
+#gameArea {
+  position: relative;
+  width: min(900px, 96vw);
+  height: min(60vh, 520px);
+  min-height: 330px;
+  margin: 8px auto 0;
+  overflow: hidden;
+  border: 2px solid #ffffffc9;
+  border-radius: 28px;
+  background: linear-gradient(180deg, #fffafc99, #f8c9df55);
+  box-shadow: 0 12px 35px #b64f7a15;
+  touch-action: manipulation;
+}
+
+.balloon {
+  position: absolute;
+  width: 54px;
+  height: 68px;
+  border-radius: 50% 50% 45% 45%;
+  border: 1px solid #ffffff80;
+  box-shadow: inset -7px -7px 0 #0000000b,
+              inset 7px 7px 0 #ffffff38,
+              0 5px 12px #a64d7020;
+  cursor: pointer;
+  user-select: none;
+  animation: floatUp linear forwards;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 21px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.balloon::after {
+  content: "";
+  position: absolute;
+  bottom: -7px;
+  left: 23px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 0;
+  border-top: 8px solid currentColor;
+}
+
+.balloon::before {
+  content: "";
+  position: absolute;
+  width: 1px;
+  height: 30px;
+  top: 100%;
+  background: #bd8d9f;
+  opacity: .7;
+}
+
+.balloon.popped {
+  pointer-events: none;
+  animation: pop .18s ease-out forwards;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(0) rotate(-5deg); }
+  to { transform: translateY(-650px) rotate(9deg); }
+}
+
+@keyframes pop {
+  to {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+#overlay {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #fff4f9ed;
+  border-radius: 26px;
+}
+
+#overlay h2 {
+  font-family: Georgia, serif;
+  color: #b64f7a;
+  font-size: clamp(27px, 5vw, 37px);
+  margin: 0 0 12px;
+}
+
+#overlay p {
+  max-width: 380px;
+  line-height: 1.7;
+  margin: 0 0 20px;
+}
+
+button {
+  border: 0;
+  border-radius: 30px;
+  padding: 13px 25px;
+  color: white;
+  background: linear-gradient(135deg, #e783ad, #c75b8a);
+  box-shadow: 0 6px 18px #c75b8a35;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform .2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+#hint {
+  text-align: center;
+  font-size: 13px;
+  padding: 12px;
+  color: #96667b;
+}
+
+@media (max-width: 480px) {
+  header { padding-top: 15px; }
+  .stat { min-width: 100px; padding: 9px 12px; }
+  #gameArea { height: 55vh; min-height: 300px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Catch the Balloons! 🎈</h1>
+  <p class="subtitle">Pop 10 balloons before time runs out, Lily 💗</p>
+
+  <div class="stats">
+    <div class="stat">🎈 Popped: <span id="score">0</span>/10</div>
+    <div class="stat">⏰ Time: <span id="time">20</span>s</div>
+  </div>
+</header>
+
+<main id="gameArea">
+  <div id="overlay">
+    <h2>A Little Birthday Game 🌸</h2>
+    <p>
+      Ready, Lily? Tap the floating balloons and pop 10 of them
+      in 20 seconds. You can do it! 💕
+    </p>
+    <button id="startBtn">Let's Play 🎈</button>
+  </div>
+</main>
+
+<div id="hint">Tap or click the balloons to pop them!</div>
+
+<script>
+const gameArea = document.getElementById("gameArea");
+const overlay = document.getElementById("overlay");
+const startBtn = document.getElementById("startBtn");
+const scoreText = document.getElementById("score");
+const timeText = document.getElementById("time");
+
+let score = 0;
+let timeLeft = 20;
+let playing = false;
+let spawnTimer = null;
+let countdown = null;
+let gameRun = 0;
+
+const balloonColors = [
+  { bg: "#ff9cbd", color: "#ff9cbd" },
+  { bg: "#c9a5ed", color: "#c9a5ed" },
+  { bg: "#ffca8c", color: "#ffca8c" },
+  { bg: "#a8d9d1", color: "#a8d9d1" },
+  { bg: "#f5a8a5", color: "#f5a8a5" }
+];
+
+function clearGameTimers() {
+  clearInterval(spawnTimer);
+  clearInterval(countdown);
+  spawnTimer = null;
+  countdown = null;
+}
+
+function removeBalloons() {
+  gameArea.querySelectorAll(".balloon").forEach(balloon => balloon.remove());
+}
+
+function startGame() {
+  clearGameTimers();
+  removeBalloons();
+
+  gameRun++;
+  const thisRun = gameRun;
+
+  score = 0;
+  timeLeft = 20;
+  playing = true;
+
+  scoreText.textContent = score;
+  timeText.textContent = timeLeft;
+  overlay.style.display = "none";
+
+  spawnBalloon(thisRun);
+
+  spawnTimer = setInterval(() => {
+    if (playing && thisRun === gameRun) spawnBalloon(thisRun);
+  }, 620);
+
+  countdown = setInterval(() => {
+    if (!playing || thisRun !== gameRun) return;
+
+    timeLeft--;
+    timeText.textContent = timeLeft;
+
+    if (timeLeft <= 0) {
+      endGame(false);
+    }
+  }, 1000);
+}
+
+function spawnBalloon(thisRun) {
+  if (!playing || thisRun !== gameRun) return;
+
+  const balloon = document.createElement("button");
+  balloon.className = "balloon";
+  balloon.type = "button";
+  balloon.setAttribute("aria-label", "Pop balloon");
+
+  const chosen = balloonColors[
+    Math.floor(Math.random() * balloonColors.length)
+  ];
+
+  balloon.style.background = chosen.bg;
+  balloon.style.color = chosen.color;
+  balloon.style.left = Math.random() * Math.max(
+    0, gameArea.clientWidth - 58
+  ) + "px";
+  balloon.style.top = (gameArea.clientHeight + 5) + "px";
+  balloon.style.animationDuration = (3.2 + Math.random() * 1.4) + "s";
+
+  balloon.textContent = Math.random() < 0.25 ? "♥" : "";
+
+  balloon.addEventListener("click", () => {
+    if (!playing || balloon.classList.contains("popped")) return;
+
+    balloon.classList.add("popped");
+    score++;
+    scoreText.textContent = score;
+
+    setTimeout(() => balloon.remove(), 180);
+
+    if (score >= 10) endGame(true);
+  });
+
+  balloon.addEventListener("animationend", () => balloon.remove());
+
+  gameArea.appendChild(balloon);
+}
+
+function endGame(won) {
+  if (!playing) return;
+
+  playing = false;
+  clearGameTimers();
+  removeBalloons();
+
+  overlay.style.display = "flex";
+
+  if (won) {
+    overlay.innerHTML = `
+      <h2>You Did It, Lily! 🎉</h2>
+      <p>
+        10 balloons popped! You're a birthday superstar. 💗
+        Ready for your next surprise?
+      </p>
+      <button id="continueBtn">Continue to Your Surprise 💌</button>
+    `;
+
+    document.getElementById("continueBtn").addEventListener("click", () => {
+      window.location.href = "index.html?won=1#nextScreen";
+    });
+  } else {
+    overlay.innerHTML = `
+      <h2>Almost There, Lily! 🌷</h2>
+      <p>
+        You popped ${score} balloons! Let's try once more
+        and catch all 10. You've got this! 💕
+      </p>
+      <button id="retryBtn">Try Again 🎈</button>
+    `;
+
+    document.getElementById("retryBtn").addEventListener("click", startGame);
+  }
+}
+
+startBtn.addEventListener("click", startGame);
+</script>
+
+</body>
+</html>
