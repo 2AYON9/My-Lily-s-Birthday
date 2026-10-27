@@ -377,6 +377,16 @@ footer {
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+  const music = document.getElementById("letterMusic");
+
+function startMusic() {
+  music.play().catch(() => {});
+  document.removeEventListener("click", startMusic);
+  document.removeEventListener("touchstart", startMusic);
+}
+
+document.addEventListener("click", startMusic);
+document.addEventListener("touchstart", startMusic, { passive: true });
   const sections = document.querySelectorAll(".story, .final-note");
 
   // Display each complete message immediately
