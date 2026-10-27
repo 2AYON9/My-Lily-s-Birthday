@@ -366,56 +366,25 @@ footer {
 </main>
 
 <script>
-/* TYPEWRITER: reveal each section in order */
-const sections = [
-  ...document.querySelectorAll(".story, .final-note")
-];
+document.addEventListener("DOMContentLoaded", () => {
+  const sections = document.querySelectorAll(".story, .final-note");
 
-const typingSpeed = 32;
+  // Display each complete message immediately
+  document.querySelectorAll(".type-text").forEach((text) => {
+    text.textContent = text.dataset.message || "";
+  });
 
-function typeSection(section, next) {
-  const text = section.querySelector(".type-text");
-
-  if (!text) {
-    next();
-    return;
-  }
-
-  const message = text.dataset.message || "";
-  let index = 0;
-
-  text.textContent = "";
-  text.classList.add("cursor");
-
-  function typeNext() {
-    if (index < message.length) {
-      text.textContent += message.charAt(index);
-      index++;
-      setTimeout(typeNext, typingSpeed);
-    } else {
-      text.classList.remove("cursor");
-      setTimeout(next, 650);
-    }
-  }
-
-  typeNext();
-}
-
-function revealSection(index) {
-  if (index >= sections.length) return;
-
-  const section = sections[index];
-  section.classList.add("visible");
-
-  setTimeout(() => {
-    typeSection(section, () => {
-      revealSection(index + 1);
+  // Smoothly reveal each section as it enters the screen
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
     });
-  }, 350);
-}
+  }, { threshold: 0.1 });
 
-window.addEventListener("DOMContentLoaded", () => {
-  setTimeout(() => revealSection(0), 500);
+  sections.forEach((section) => observer.observe(section));
 });
 </script>
 
