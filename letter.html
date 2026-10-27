@@ -376,25 +376,37 @@ footer {
 </main>
 
 <script>
+  
 document.addEventListener("DOMContentLoaded", () => {
   const music = document.getElementById("letterMusic");
+  const musicButton = document.getElementById("musicButton");
 
-function startMusic() {
-  music.play().catch(() => {});
-  document.removeEventListener("click", startMusic);
-  document.removeEventListener("touchstart", startMusic);
-}
+  // Music button: play or pause
+  if (music && musicButton) {
+    musicButton.addEventListener("click", async () => {
+      try {
+        if (music.paused) {
+          await music.play();
+          musicButton.textContent = "♫ Pause Music";
+        } else {
+          music.pause();
+          musicButton.textContent = "♫ Play Music";
+        }
+      } catch (error) {
+        console.error("Music playback failed:", error);
+        alert("Music could not play. Check the MP3 filename and location.");
+      }
+    });
+  }
 
-document.addEventListener("click", startMusic);
-document.addEventListener("touchstart", startMusic, { passive: true });
-  const sections = document.querySelectorAll(".story, .final-note");
-
-  // Display each complete message immediately
+  // Display all messages immediately (no typewriter effect)
   document.querySelectorAll(".type-text").forEach((text) => {
     text.textContent = text.dataset.message || "";
   });
 
-  // Smoothly reveal each section as it enters the screen
+  // Reveal sections smoothly while scrolling
+  const sections = document.querySelectorAll(".story, .final-note");
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -406,6 +418,7 @@ document.addEventListener("touchstart", startMusic, { passive: true });
 
   sections.forEach((section) => observer.observe(section));
 });
+
 </script>
 
 </body>
